@@ -12,6 +12,8 @@ import gtk
 import xml.etree.ElementTree as ET
 import shutil
 import re
+import urllib2
+import os
 
 class PlaylistParser():
 
@@ -50,15 +52,23 @@ class PlaylistParser():
 		song_files = []
 		for e in tree.iter(tag='{http://xspf.org/ns/0/}location'):
 			clean = re.sub(r'file:///', '/', e.text)
-			song_files.append(clean)
+			
+			//  ENABLES FILES TO HAVE SPACES IN NAME
+			decoded = urllib2.unquote(clean)
+			song_files.append(decoded)
 		if song_files != None:
 			return song_files
 		else:
 			print "Something went wrong, check the playlist file and try again"
 
 	def push_files(self,song_list, destination):
+		// SETUP COUNTER FOR TRACK NUMBERS
+		i=1
 		for song in song_list:
-			shutil.copy2(song, destination)
+			// GET FILENAME OF SONG AND RENAME IT WITH TRACK NUMBERS
+			head, tail = os.path.split(song)
+			shutil.copy2(song, destination + "/" + "%02d" % i + "_" + tail)
+			i=i+1
 
 	def msg_dialog(self, info):
 		msg_dialog = gtk.MessageDialog(parent=None, 
