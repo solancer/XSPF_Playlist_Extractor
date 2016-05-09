@@ -53,7 +53,7 @@ class PlaylistParser():
 		for e in tree.iter(tag='{http://xspf.org/ns/0/}location'):
 			clean = re.sub(r'file:///', '/', e.text)
 			
-			//  ENABLES FILES TO HAVE SPACES IN NAME
+			# ENABLES FILES TO HAVE SPACES IN NAME
 			decoded = urllib2.unquote(clean)
 			song_files.append(decoded)
 		if song_files != None:
@@ -62,10 +62,10 @@ class PlaylistParser():
 			print "Something went wrong, check the playlist file and try again"
 
 	def push_files(self,song_list, destination):
-		// SETUP COUNTER FOR TRACK NUMBERS
+		# SETUP COUNTER FOR TRACK NUMBERS
 		i=1
 		for song in song_list:
-			// GET FILENAME OF SONG AND RENAME IT WITH TRACK NUMBERS
+			# GET FILENAME OF SONG AND RENAME IT WITH TRACK NUMBERS
 			head, tail = os.path.split(song)
 			shutil.copy2(song, destination + "/" + "%02d" % i + "_" + tail)
 			i=i+1
